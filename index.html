@@ -24,22 +24,21 @@
         .progress-bar {
             width: 100%;
             background-color: #444;
-            border-radius: 15px;
-            height: 30px;
-            position: relative;
+            border-radius: 5px;
+            height: 25px;
             overflow: hidden;
             box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
         }
         .progress {
             height: 100%;
             width: 0%;
-            border-radius: 15px;
+            border-radius: 5px;
             text-align: center;
-            color: white;
+            color: black;
             font-weight: bold;
-            line-height: 30px;
-            transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
-            background: linear-gradient(90deg, #4CAF50, #66ff66);
+            line-height: 25px;
+            transition: width 0.5s ease-in-out;
+            background: linear-gradient(to right, #ff3333, #ffcc00, #4CAF50);
         }
     </style>
 </head>
@@ -63,25 +62,19 @@
             "AI Enabled / Mindset": { color: "#66ff66", items: ["Googling Skill", "Using ChatGPT / BARD", "Continuous Learning", "Problem Solving"] },
             "Communication": { color: "#ff9999", items: ["Present Insights", "Write Emails", "Stakeholder Management", "Project Management Tools"] },
             "LinkedIn": { color: "#99ccff", items: ["Good DP + Banner", "10 Endorsed Skills", "3 Recommendations", "Link to Portfolio"] },
-            "Portfolio": { color: "#cccc99", items: ["4+ Business Projects", "1 per Tool", "Insights Desk", "Video Presentation"] }
+            "Portfolio": { color: "#cccc99", items: ["4+ Business Projects", "1 per Tool", "Insights Desk", "Video Presentation"] },
+            "Power BI": { color: "#FFD700", items: ["Introduction to Power BI", "Visualizations", "Data modeling", "DAX", "Connectivity", "Creating reports", "Publishing, sharing & scheduling a refresh", "Projects"] },
+            "Excel": { color: "#32CD32", items: ["Excel Introduction", "Worksheets and Workbook", "Functions", "Data Cleaning & Validation", "Visualization", "Macros and VBA", "Security Features", "Project"] }
         };
 
         const checklistContainer = document.getElementById('checklist');
         let totalItems = 0, checkedItems = 0;
-        let activeColors = new Set();
 
         function updateProgress() {
             const percentage = Math.round((checkedItems / totalItems) * 100);
             const progressBar = document.getElementById('progress-text');
             progressBar.style.width = percentage + '%';
             progressBar.innerText = percentage + '%';
-            
-            let colorBlend = Array.from(activeColors).join(', ');
-            if (colorBlend) {
-                progressBar.style.background = `linear-gradient(90deg, ${colorBlend})`;
-            } else {
-                progressBar.style.background = '#4CAF50';
-            }
         }
 
         Object.entries(checklistData).forEach(([category, { color, items }]) => {
@@ -96,13 +89,7 @@
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        checkedItems++;
-                        activeColors.add(color);
-                    } else {
-                        checkedItems--;
-                        activeColors.delete(color);
-                    }
+                    checkedItems += this.checked ? 1 : -1;
                     updateProgress();
                 });
 
